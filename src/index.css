@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #C89B5E;
+  --gold-deep: #A67C52;
+  --teal: #3CB7A5;
+  --turquoise: #7ED6C3;
+  --purple: #7A5C9E;
+  --ivory: #F7F4EF;
+  --beige: #E8DCCB;
+  --charcoal: #2B2B2B;
+  --gold-glow: #E5C98B;
+}
+
+body {
+  background-color: var(--ivory);
+  color: var(--charcoal);
+}
+
+
+.arrows{
+  height: 40px;
+  width: 40px;
+  margin: 1px;
+}
+.slick-prev::before,
+.slick-next::before {
+  display: none;
+}
