@@ -31,7 +31,7 @@ function Navbar({ location, getLocation, openDropdown, setOpenDropdown }) {
                 {/* LEFT: LOGO & LOCATION */}
                 <div className="flex items-center gap-14">
                     {/* FIXED LOGO: Added z-index and removed potential blocking overlays */}
-                    <Link to="/" className="relative z-30 flex items-center group">
+                    <Link to="/About" className="relative z-10 flex items-center group">
                         <img 
                             src={logo} 
                             alt="Elvaré Home" 
