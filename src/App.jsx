@@ -1,5 +1,5 @@
-import React, { useState } from 'react' // 1. Added useState
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React, { useState } from 'react'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -17,11 +17,9 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
 function App() {
-  // 2. LOCATION STATE
   const [location, setLocation] = useState(null)
   const [openDropdown, setOpenDropdown] = useState(false)
 
-  // 3. GEOLOCATION LOGIC
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -31,15 +29,25 @@ function App() {
             const response = await fetch(
               `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
             )
+
             if (!response.ok) {
               throw new Error(`Location service failed with status ${response.status}`)
             }
+
             const data = await response.json()
             const address = data.address || {}
+
             setLocation({
-              county: address.city || address.town || address.village || address.county || "Unknown",
+              county:
+                address.city ||
+                address.town ||
+                address.village ||
+                address.county ||
+                "Unknown",
+
               state: address.state || "Detected"
             })
+
           } catch (error) {
             console.error("Error fetching location details:", error)
             alert("Couldn't detect your location right now. Please try again.")
@@ -56,30 +64,36 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
-      
-      {/* 4. PASSING PROPS TO NAVBAR */}
-      <Navbar 
-        location={location} 
-        getLocation={getLocation} 
-        openDropdown={openDropdown} 
-        setOpenDropdown={setOpenDropdown} 
+    <HashRouter>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        theme="light"
       />
-      
+
+      <Navbar
+        location={location}
+        getLocation={getLocation}
+        openDropdown={openDropdown}
+        setOpenDropdown={setOpenDropdown}
+      />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/products' element={<Products />} />
         <Route path='/about' element={<About />} />
-        <Route path='/products/:id' element={<SingleProduct />} /> 
+        <Route path='/products/:id' element={<SingleProduct />} />
         <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/checkout' element={<Checkout />} />
-        <Route path="*" element={<div className="pt-40 text-center">Page Not Found</div>} />
+        <Route
+          path="*"
+          element={<div className="pt-40 text-center">Page Not Found</div>}
+        />
       </Routes>
-      
-      <Footer/>
-    </BrowserRouter>
+
+      <Footer />
+    </HashRouter>
   )
 }
 
